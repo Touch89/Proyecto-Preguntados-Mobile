@@ -14,46 +14,47 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="192dp"
+            android:layout_height="192dp"
             android:layout_gravity="center"
             android:contentDescription="Logo of Preguntados"
-            android:src="@drawable/ic_launcher_background" />
+            android:src="@drawable/app_icon" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="PREGUNTA2"
-            android:textSize="24sp"/>
+            android:text="PREGUNTADOS"
+            android:fontFamily="sans-serif-black"
+            android:textSize="36sp"/>
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="32dp"/>
+            android:layout_height="48dp"/>
 
         <ImageButton
             android:id="@+id/start_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="72dp"
             android:backgroundTint="#00000000"
             android:contentDescription="Play button"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/bt_play" />
 
         <ImageButton
             android:id="@+id/options_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="72dp"
             android:backgroundTint="#00000000"
             android:contentDescription="Options button"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/bt_options" />
 
         <ImageButton
             android:id="@+id/leaderboard_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="72dp"
             android:backgroundTint="#00000000"
             android:contentDescription="Leaderboard button"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/bt_leaderboard"
             android:clickable="false"/>
 
     </LinearLayout>
