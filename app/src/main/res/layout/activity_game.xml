@@ -123,7 +123,7 @@
                 android:textAlignment="center"
                 android:textSize="20sp"
                 tools:text="Opción C" />
-                <!--android:visibility="gone" para hacer que desaparezcan los botones ** -->
+            <!--android:visibility="gone" para hacer que desaparezcan los botones ** -->
 
             <Button
                 android:id="@+id/optionD_button"
@@ -160,6 +160,7 @@
                 android:id="@+id/prev_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/prev_button"
                 android:textSize="24sp"
                 app:iconGravity="end"
                 app:iconSize="18dp"
@@ -174,6 +175,7 @@
                 android:id="@+id/next_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/next_button"
                 android:textSize="24sp"
                 app:iconGravity="end"
                 app:iconSize="18dp"
