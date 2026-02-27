@@ -76,20 +76,19 @@
                 android:id="@+id/optionA_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="20dp"
                 android:maxWidth="200dp"
+                android:maxHeight="170dp"
                 android:textAlignment="center"
                 android:textSize="20sp"
                 tools:text="Opción A" />
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
 
             <Button
                 android:id="@+id/optionB_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="20dp"
                 android:maxWidth="200dp"
                 android:maxHeight="170dp"
                 android:textAlignment="center"
@@ -118,21 +117,19 @@
                 android:id="@+id/optionC_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="20dp"
                 android:maxWidth="200dp"
                 android:maxHeight="170dp"
                 android:textAlignment="center"
                 android:textSize="20sp"
                 tools:text="Opción C" />
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
+                <!--android:visibility="gone" para hacer que desaparezcan los botones ** -->
 
             <Button
                 android:id="@+id/optionD_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="20dp"
                 android:maxWidth="200dp"
                 android:maxHeight="170dp"
                 android:textAlignment="center"
