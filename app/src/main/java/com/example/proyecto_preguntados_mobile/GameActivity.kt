@@ -12,22 +12,15 @@ import androidx.core.view.WindowInsetsCompat
 class GameActivity : AppCompatActivity() {
 
     private lateinit var questionText: TextView
-
     private lateinit var questionNumberText: TextView
-
     private lateinit var totalAnsweredText: TextView
-
     private lateinit var mainLayout: LinearLayout
-
     private lateinit var optionAButton: Button
     private lateinit var optionBButton: Button
     private lateinit var optionCButton: Button
     private lateinit var optionDButton: Button
-
     private lateinit var prevButton: Button
-
     private lateinit var nextButton: Button
-
     private lateinit var hintButton: Button
 
 
