@@ -1,9 +1,7 @@
 package com.example.proyecto_preguntados_mobile
 
-import android.graphics.Color
 import android.os.Bundle
 import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -44,8 +42,15 @@ class GameActivity : AppCompatActivity() {
         questionNumberText.text = "Pregunta ${questionIndex + 1}"
         totalAnsweredText.text = "${totalAnswered} / ${questionArray.size} contestadas"
 
+        when (topic) {
+            "Cine" -> mainLayout.setBackgroundResource(R.drawable.cinemaimage)
+            "Geografía" -> mainLayout.setBackgroundResource(R.drawable.geographyimage)
+            "Tecnología" -> mainLayout.setBackgroundResource(R.drawable.technologyimage)
+            "Deportes" -> mainLayout.setBackgroundResource(R.drawable.sportsimage)
+            "Astronomía" -> mainLayout.setBackgroundResource(R.drawable.astronomyimage)
+            else -> return
+        }
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,15 +74,19 @@ class GameActivity : AppCompatActivity() {
         hintButton = findViewById(R.id.hint_button)
 
         //prueba
-        topicsChosen += "Matemáticas"
-        topicsChosen += "Cultura General"
+        topicsChosen += "Cine"
+        topicsChosen += "Tecnología"
+        topicsChosen += "Geografía"
+        topicsChosen += "Deportes"
+        topicsChosen += "Astronomía"
+
         //totalOfQuestions = variable pasada
 
-
-        for (question in quizModel.questionList) {
+        for (question in quizModel.questionList.shuffled()) {
             if (counter < totalOfQuestions) {
                 if (topicsChosen.contains(question.topic)) {
                     questionArray += question
+                    counter++
                 }
             }
         }
@@ -88,18 +97,15 @@ class GameActivity : AppCompatActivity() {
             questionIndex = (questionIndex + 1) % questionArray.size
             questionText.text = questionArray[questionIndex].text
             updateInterface(questionArray[questionIndex].topic)
-
-            prevButton.setOnClickListener { _ ->
-                questionIndex = if (questionIndex == 0) {
-                    questionArray.size - 1
-                } else {
-                    (questionIndex - 1) % questionArray.size
-                }
-                questionText.text = questionArray[questionIndex].text
-                updateInterface(questionArray[questionIndex].topic)
+        }
+        prevButton.setOnClickListener { _ ->
+            questionIndex = if (questionIndex == 0) {
+                questionArray.size - 1
+            } else {
+                (questionIndex - 1) % questionArray.size
             }
-
-
+            questionText.text = questionArray[questionIndex].text
+            updateInterface(questionArray[questionIndex].topic)
         }
     }
 }
