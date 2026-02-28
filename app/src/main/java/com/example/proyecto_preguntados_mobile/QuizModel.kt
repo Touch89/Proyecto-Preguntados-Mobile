@@ -4,8 +4,6 @@ import androidx.lifecycle.ViewModel
 import kotlin.rem
 
 class QuizModel : ViewModel() {
-    //Manera temporal para manejar las preguntas, puede que cambiemos la parte de las respuestas por una variable de la respuesta correcta y la lista de incorrectas***
-
     private val questionArray = listOf<Question>(
         Question(
             "¿Cómo se llama el ogro verde que vive en un pantano?",
@@ -258,25 +256,49 @@ class QuizModel : ViewModel() {
             )
         )
     )
-    private var questionIndex = 0
+
+    //Ya se queda en la misma pregunta, ya solo faltaría que veas eso de las opciones
+    //Para que ya pueda meter lo de las pistas y ya debería estar👍
+
+    private var gameQuestions = listOf<Question>()
+    private var questionsChosen = false
+    var questionIndex = 0
+
+    private var counter = 0
+
+    fun startGame(questionAmount: Int, topicsChosen: List<String>){
+        counter = 0
+        if (questionsChosen) {return}
+
+        for (question in questionArray.shuffled()) {
+            if (counter < questionAmount) {
+                if (topicsChosen.contains(question.topic)) {
+                    gameQuestions += question
+                    counter++
+                }
+            }
+        }
+        questionsChosen = true
+    }
+
     fun moveToTheNextQuestion() {
-        questionIndex = (questionIndex + 1) % questionArray.size
+        questionIndex = (questionIndex + 1) % gameQuestions.size
     }
 
     fun moveToThePrevQuestion() {
         if (questionIndex == 0) {
-            questionIndex = questionArray.size - 1
+            questionIndex = gameQuestions.size - 1
         } else {
-            questionIndex = (questionIndex - 1) % questionArray.size
+            questionIndex = (questionIndex - 1) % gameQuestions.size
         }
     }
 
     val questionAnswer: List<Answer>
-        get() = questionArray[questionIndex].answers
+        get() = gameQuestions[questionIndex].answers
 
     val questionText: String
-        get() = questionArray[questionIndex].text
+        get() = gameQuestions[questionIndex].text
 
     val questionList: List<Question>
-        get() = questionArray
+        get() = gameQuestions
 }
