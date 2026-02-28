@@ -263,7 +263,8 @@ class QuizModel : ViewModel() {
     private var gameQuestions = listOf<Question>()
     private var questionsChosen = false
     var questionIndex = 0
-
+    private var hintAmount = 3
+    private var consecutiveAnswers = 0
     private var counter = 0
 
     fun startGame(questionAmount: Int, topicsChosen: List<String>){
@@ -293,6 +294,12 @@ class QuizModel : ViewModel() {
         }
     }
 
+    fun useHint(){ //Acá van las cosas para
+        gameQuestions[questionIndex].usedHint = true
+        hintAmount -= 1
+        consecutiveAnswers = 0
+    }
+
     val questionAnswer: List<Answer>
         get() = gameQuestions[questionIndex].answers
 
@@ -301,4 +308,7 @@ class QuizModel : ViewModel() {
 
     val questionList: List<Question>
         get() = gameQuestions
+
+    val hintsLeft: Number
+        get() = hintAmount
 }

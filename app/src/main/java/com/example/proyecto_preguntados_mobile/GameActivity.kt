@@ -38,14 +38,14 @@ class GameActivity : AppCompatActivity() {
     private var firstPressTime: Long = 0
     private var totalOfQuestions = 10
     private var hintsActivated = true
-    private var hintAmount = 3
-    private var consecutiveAnswers = 0
     private var totalAnswered = 0
     private var topicsChosen = listOf<String>()
 
-    private fun updateInterface(topic: String) {
+    private fun updateInterface() {
         val index = quizModel.questionIndex
         val question = questionArray[index]
+        val topic = questionArray[index].topic
+        val hintsLeft = quizModel.hintsLeft
         questionNumberText.text = "Pregunta ${index + 1}"
         totalAnsweredText.text = "${totalAnswered} / ${questionArray.size} contestadas"
 
@@ -56,7 +56,7 @@ class GameActivity : AppCompatActivity() {
         optionDButton.text = question.answers[3].text
 
         if (hintsActivated){
-            hintButton.text = "Hint (${hintAmount}  left)"
+            hintButton.text = "Hint (${hintsLeft} left)"
 
         }
         else{
@@ -70,6 +70,11 @@ class GameActivity : AppCompatActivity() {
             "Astronomía" -> mainLayout.setBackgroundResource(R.drawable.astronomyimage)
             else -> return
         }
+    }
+
+    private fun hintUsed(){
+        quizModel.useHint()
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -112,15 +117,20 @@ class GameActivity : AppCompatActivity() {
 
         questionArray = quizModel.questionList
 
-        updateInterface(questionArray[quizModel.questionIndex].topic)
+        updateInterface()
 
         nextButton.setOnClickListener { _ ->
             quizModel.moveToTheNextQuestion()
-            updateInterface(questionArray[quizModel.questionIndex].topic)
+            updateInterface()
         }
         prevButton.setOnClickListener { _ ->
             quizModel.moveToThePrevQuestion()
-            updateInterface(questionArray[quizModel.questionIndex].topic)
+            updateInterface()
+        }
+
+        hintButton.setOnClickListener { _ ->
+            hintUsed()
+            updateInterface()
         }
     }
 }
