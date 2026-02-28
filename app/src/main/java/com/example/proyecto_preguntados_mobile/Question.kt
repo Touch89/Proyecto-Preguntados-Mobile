@@ -1,3 +1,3 @@
 package com.example.proyecto_preguntados_mobile
 
-data class Question(val text: String, val topic: String, val answers: List<Answer>)
+data class Question(val text: String, val topic: String, val answers: List<Answer>, val usedHint: Boolean = false)
