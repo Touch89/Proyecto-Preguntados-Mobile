@@ -32,7 +32,8 @@ class GameActivity : AppCompatActivity() {
 
     private var questionIndex = 0
     private var totalOfQuestions = 5
-
+    private var hintsActivated = false
+    private var consecutiveAnswers = 0
     private var totalAnswered = 0
     private var topicsChosen = listOf<String>()
     private var counter = 0
@@ -68,6 +69,8 @@ class GameActivity : AppCompatActivity() {
         //prueba
         topicsChosen += "Matemáticas"
         topicsChosen += "Cultura General"
+        //totalOfQuestions = variable pasada
+
 
         for (question in quizModel.questionList) {
             if (counter < totalOfQuestions) {
@@ -78,9 +81,6 @@ class GameActivity : AppCompatActivity() {
         }
         questionText.text = questionArray[questionIndex].text
         updateInterface()
-
-        //totalOfQuestions = variable pasada
-
 
         nextButton.setOnClickListener { _ ->
             questionIndex = (questionIndex + 1) % questionArray.size
