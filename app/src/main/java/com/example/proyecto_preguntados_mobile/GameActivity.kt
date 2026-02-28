@@ -5,12 +5,15 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import kotlin.compareTo
 import kotlin.getValue
 
 class GameActivity : AppCompatActivity() {
@@ -32,6 +35,7 @@ class GameActivity : AppCompatActivity() {
     private var questionArray = listOf<Question>()
 
     private var questionIndex = 0
+    private var firstPressTime: Long = 0
     private var totalOfQuestions = 10
     private var hintsActivated = false
     private var hintAmount = 3
@@ -77,6 +81,18 @@ class GameActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (firstPressTime + 1000 > System.currentTimeMillis()) {
+                    finish()
+                } else {
+                    Toast.makeText(baseContext, "Press Back twice to exit the game", Toast.LENGTH_SHORT).show()
+                }
+                firstPressTime = System.currentTimeMillis()
+            }
+        })
+
         questionText = findViewById(R.id.question_text)
         questionNumberText = findViewById(R.id.questionNumber_text)
         totalAnsweredText = findViewById(R.id.totalAnswered_text)
