@@ -1,6 +1,8 @@
 package com.example.proyecto_preguntados_mobile
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -30,8 +32,9 @@ class GameActivity : AppCompatActivity() {
     private var questionArray = listOf<Question>()
 
     private var questionIndex = 0
-    private var totalOfQuestions = 5
+    private var totalOfQuestions = 10
     private var hintsActivated = false
+    private var hintAmount = 3
     private var consecutiveAnswers = 0
     private var totalAnswered = 0
     private var topicsChosen = listOf<String>()
@@ -42,6 +45,19 @@ class GameActivity : AppCompatActivity() {
         questionNumberText.text = "Pregunta ${questionIndex + 1}"
         totalAnsweredText.text = "${totalAnswered} / ${questionArray.size} contestadas"
 
+        questionText.text = questionArray[questionIndex].text
+        optionAButton.text = questionArray[questionIndex].answers[0].text
+        optionBButton.text = questionArray[questionIndex].answers[1].text
+        optionCButton.text = questionArray[questionIndex].answers[2].text
+        optionDButton.text = questionArray[questionIndex].answers[3].text
+
+        if (hintsActivated){
+            hintButton.text = "Hint (${hintAmount}  left)"
+
+        }
+        else{
+            hintButton.visibility = View.GONE
+        }
         when (topic) {
             "Cine" -> mainLayout.setBackgroundResource(R.drawable.cinemaimage)
             "Geografía" -> mainLayout.setBackgroundResource(R.drawable.geographyimage)
@@ -81,6 +97,14 @@ class GameActivity : AppCompatActivity() {
         topicsChosen += "Astronomía"
 
         //totalOfQuestions = variable pasada
+        /*
+        Esto está acá por ahora, pero se puede pasar al quizModel y se crea el
+        onSaveInstanceState para poder guardar si ya se revolvió y así no se
+        cambian las preguntas a cada rato.
+        En realidad, debí hacer eso desde el principio, pero ni modos.
+        Puedes mover todo lo de abajo, solo lo estaba usando para ver si
+        las respuestas servían y qué tanto se desacomodaban 👍.
+        */
 
         for (question in quizModel.questionList.shuffled()) {
             if (counter < totalOfQuestions) {
@@ -90,12 +114,10 @@ class GameActivity : AppCompatActivity() {
                 }
             }
         }
-        questionText.text = questionArray[questionIndex].text
         updateInterface(questionArray[questionIndex].topic)
 
         nextButton.setOnClickListener { _ ->
             questionIndex = (questionIndex + 1) % questionArray.size
-            questionText.text = questionArray[questionIndex].text
             updateInterface(questionArray[questionIndex].topic)
         }
         prevButton.setOnClickListener { _ ->
@@ -104,7 +126,6 @@ class GameActivity : AppCompatActivity() {
             } else {
                 (questionIndex - 1) % questionArray.size
             }
-            questionText.text = questionArray[questionIndex].text
             updateInterface(questionArray[questionIndex].topic)
         }
     }

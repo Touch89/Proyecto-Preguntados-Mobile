@@ -14,7 +14,7 @@ class QuizModel : ViewModel() {
                 Answer("Shrek", true),
                 Answer("Sulley", false),
                 Answer("Hulk", false),
-                Answer("Mike Wazowski", false)
+                Answer("Mike", false)
             )
         ),
         Question(
@@ -224,7 +224,7 @@ class QuizModel : ViewModel() {
                 Answer("Andrómeda", false),
                 Answer("Vía Láctea", true),
                 Answer("Nebulosa", false),
-                Answer("Alfa Centauri", false)
+                Answer("Centauri", false)
             )
         ),
         Question(
