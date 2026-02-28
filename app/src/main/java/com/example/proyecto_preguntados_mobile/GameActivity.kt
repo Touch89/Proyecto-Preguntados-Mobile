@@ -73,8 +73,11 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun hintUsed(){
+        if (quizModel.hintsLeft <= 0) {
+            Toast.makeText(baseContext, "You have no hints left", Toast.LENGTH_SHORT).show()
+            return
+        }
         quizModel.useHint()
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

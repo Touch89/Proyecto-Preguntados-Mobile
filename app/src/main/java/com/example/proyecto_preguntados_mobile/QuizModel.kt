@@ -309,6 +309,6 @@ class QuizModel : ViewModel() {
     val questionList: List<Question>
         get() = gameQuestions
 
-    val hintsLeft: Number
+    val hintsLeft: Int
         get() = hintAmount
 }
