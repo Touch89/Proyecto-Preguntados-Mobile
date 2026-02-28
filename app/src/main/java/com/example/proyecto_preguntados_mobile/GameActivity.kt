@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import kotlin.getValue
@@ -17,7 +18,7 @@ class GameActivity : AppCompatActivity() {
     private lateinit var questionText: TextView
     private lateinit var questionNumberText: TextView
     private lateinit var totalAnsweredText: TextView
-    private lateinit var mainLayout: LinearLayout
+    private lateinit var mainLayout: ConstraintLayout
     private lateinit var optionAButton: Button
     private lateinit var optionBButton: Button
     private lateinit var optionCButton: Button
@@ -39,9 +40,10 @@ class GameActivity : AppCompatActivity() {
     private var counter = 0
     //Agarrar los temas seleccionados
 
-    private fun updateInterface() {
+    private fun updateInterface(topic: String) {
         questionNumberText.text = "Pregunta ${questionIndex + 1}"
         totalAnsweredText.text = "${totalAnswered} / ${questionArray.size} contestadas"
+
     }
 
 
@@ -57,14 +59,14 @@ class GameActivity : AppCompatActivity() {
         questionText = findViewById(R.id.question_text)
         questionNumberText = findViewById(R.id.questionNumber_text)
         totalAnsweredText = findViewById(R.id.totalAnswered_text)
-        mainLayout = findViewById(R.id.main_layout)
+        mainLayout = findViewById(R.id.main)
         optionAButton = findViewById(R.id.optionA_button)
         optionBButton = findViewById(R.id.optionB_button)
         optionCButton = findViewById(R.id.optionC_button)
         optionDButton = findViewById(R.id.optionD_button)
         prevButton = findViewById(R.id.prev_button)
         nextButton = findViewById(R.id.next_button)
-        //hintButton = findViewById(R.id.hint_button) FALTA AGREGAR
+        hintButton = findViewById(R.id.hint_button)
 
         //prueba
         topicsChosen += "Matemáticas"
@@ -80,24 +82,24 @@ class GameActivity : AppCompatActivity() {
             }
         }
         questionText.text = questionArray[questionIndex].text
-        updateInterface()
+        updateInterface(questionArray[questionIndex].topic)
 
         nextButton.setOnClickListener { _ ->
             questionIndex = (questionIndex + 1) % questionArray.size
             questionText.text = questionArray[questionIndex].text
-            updateInterface()
-        }
+            updateInterface(questionArray[questionIndex].topic)
 
-        prevButton.setOnClickListener { _ ->
-            if (questionIndex == 0) {
-                questionIndex = questionArray.size - 1
-            } else {
-                questionIndex = (questionIndex - 1) % questionArray.size
+            prevButton.setOnClickListener { _ ->
+                questionIndex = if (questionIndex == 0) {
+                    questionArray.size - 1
+                } else {
+                    (questionIndex - 1) % questionArray.size
+                }
+                questionText.text = questionArray[questionIndex].text
+                updateInterface(questionArray[questionIndex].topic)
             }
-            questionText.text = questionArray[questionIndex].text
-            updateInterface()
+
+
         }
-
-
     }
 }
