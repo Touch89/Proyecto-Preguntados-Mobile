@@ -4,4 +4,13 @@
     <string name="options_button">Options button</string>
     <string name="leaderboard_button">Leaderboard button</string>
     <string name="logo">Logo of Preguntados</string>
+
+    <string name="score_img">Image score</string>
+    <string name="finish_score_txt">¡Haz finalizado!</string>
+    <string name="score_txt">Puntaje:</string>
+    <string name="difficulty_score_txt">Dificultad:</string>
+    <string name="question_answered_score_txt">Preguntas respondidas:</string>
+    <string name="hint_use_score_txt">Pistas utilizadas:</string>
+    <string name="hint_bono_score_txt">Bono por pistas sin utilizar:</string>
+    <string name="back_to_start_button">VOLVER A INICIO</string>
 </resources>
