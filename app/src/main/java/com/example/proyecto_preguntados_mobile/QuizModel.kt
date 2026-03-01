@@ -261,6 +261,8 @@ class QuizModel : ViewModel() {
     //Para que ya pueda meter lo de las pistas y ya debería estar👍
 
     private var gameQuestions = listOf<Question>()
+    var answers = listOf<Answer>()
+    var difficulty = 2
     private var questionsChosen = false
     var questionIndex = 0
     private var hintAmount = 3
@@ -275,6 +277,17 @@ class QuizModel : ViewModel() {
             if (counter < questionAmount) {
                 if (topicsChosen.contains(question.topic)) {
                     gameQuestions += question
+                    var incorrectAnswerNumber = 0
+                    val randomQuestionAnswers = question.answers.shuffled()
+                    for (answer in randomQuestionAnswers) {
+                        if (answer.correct) {
+                            answers += answer
+                        }
+                        else if (incorrectAnswerNumber <= difficulty) {
+                            answers += answer
+                            incorrectAnswerNumber++
+                        }
+                    }
                     counter++
                 }
             }

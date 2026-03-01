@@ -43,17 +43,28 @@ class GameActivity : AppCompatActivity() {
 
     private fun updateInterface() {
         val index = quizModel.questionIndex
+        val difficulty = quizModel.difficulty
         val question = questionArray[index]
+        val answers = quizModel.answers
         val topic = questionArray[index].topic
         val hintsLeft = quizModel.hintsLeft
         questionNumberText.text = "Pregunta ${index + 1}"
         totalAnsweredText.text = "${totalAnswered} / ${questionArray.size} contestadas"
 
         questionText.text = question.text
-        optionAButton.text = question.answers[0].text
-        optionBButton.text = question.answers[1].text
-        optionCButton.text = question.answers[2].text
-        optionDButton.text = question.answers[3].text
+        optionAButton.text = answers[index*(difficulty+2)].text
+        optionBButton.text = answers[index*(difficulty+2)+1].text
+        if(difficulty > 0) {
+            optionCButton.text = answers[index*(difficulty+2)+2].text
+            if (difficulty == 2) {
+                optionDButton.text = answers[index*(difficulty+2)+3].text
+            } else {
+                optionDButton.visibility = View.GONE
+            }
+        } else {
+            optionCButton.visibility = View.GONE
+        }
+
 
         if (hintsActivated){
             hintButton.text = "Hint (${hintsLeft} left)"
