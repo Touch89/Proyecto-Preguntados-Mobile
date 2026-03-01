@@ -1,6 +1,10 @@
 <resources>
-    <string name="app_name">Proyecto-Preguntados-Mobile</string>
     <string name="next_button">NEXT</string>
     <string name="prev_button">PREV</string>
     <string name="hint_button">Hint</string>
+    <string name="app_name">PREGUNTADOS</string>
+    <string name="play_button">Play button</string>
+    <string name="options_button">Options button</string>
+    <string name="leaderboard_button">Leaderboard button</string>
+    <string name="logo">Logo of Preguntados</string>
 </resources>
