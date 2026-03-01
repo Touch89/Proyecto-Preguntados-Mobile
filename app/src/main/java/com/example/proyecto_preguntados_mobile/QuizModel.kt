@@ -257,24 +257,23 @@ class QuizModel : ViewModel() {
         )
     )
 
-    //Ya se queda en la misma pregunta, ya solo faltaría que veas eso de las opciones
-    //Para que ya pueda meter lo de las pistas y ya debería estar👍
-
     private var gameQuestions = listOf<Question>()
     var answers = listOf<Answer>()
     var difficulty = 2
     private var questionsChosen = false
     var questionIndex = 0
-    private var hintAmount = 3
-    private var consecutiveAnswers = 0
+    var hintsLeft = 3
+    var consecutiveAnswers = 0
     private var counter = 0
     var questionsAnswered = 0
     var answeredCorrectly = mutableListOf<Boolean?>()
     var answersGiven = mutableListOf<Int?>()
 
-    fun startGame(questionAmount: Int, topicsChosen: List<String>){
+    fun startGame(questionAmount: Int, topicsChosen: List<String>) {
         counter = 0
-        if (questionsChosen) {return}
+        if (questionsChosen) {
+            return
+        }
 
         for (question in questionArray.shuffled()) {
             if (counter < questionAmount) {
@@ -285,12 +284,15 @@ class QuizModel : ViewModel() {
                     for (answer in randomQuestionAnswers) {
                         if (answer.correct) {
                             answers += answer
-                        }
-                        else if (incorrectAnswerNumber <= difficulty) {
+                        } else if (incorrectAnswerNumber <= difficulty) {
                             answers += answer
                             incorrectAnswerNumber++
                         }
+                        else {
+                            answer.eliminatedByHint = true
+                        }
                     }
+
                     answersGiven += null
                     answeredCorrectly += null
                     counter++
@@ -312,10 +314,27 @@ class QuizModel : ViewModel() {
         }
     }
 
-    fun useHint(){ //Acá van las cosas para
+    fun useHint(): Boolean {
         gameQuestions[questionIndex].usedHint = true
-        hintAmount -= 1
-        consecutiveAnswers = 0
+        hintsLeft -= 1
+
+        val incorrectOptRemaining = mutableListOf<Int>() //indices de las incorrectas
+        var totalOptRemaining = 0
+        var optionsIndex = 0
+        for (answer in gameQuestions[questionIndex].answers) {
+            if (!answer.eliminatedByHint && !answer.correct) {
+                incorrectOptRemaining += optionsIndex
+            }
+            optionsIndex += 1
+        }
+
+        if (incorrectOptRemaining.size == 1) {
+            return true
+        } else {
+            incorrectOptRemaining.shuffled()
+            gameQuestions[questionIndex].answers[incorrectOptRemaining[0]].eliminatedByHint = true
+        }
+        return false
     }
 
     val questionAnswer: List<Answer>
@@ -327,6 +346,4 @@ class QuizModel : ViewModel() {
     val questionList: List<Question>
         get() = gameQuestions
 
-    val hintsLeft: Int
-        get() = hintAmount
 }

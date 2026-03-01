@@ -48,7 +48,8 @@ dentro del juego se va a cambiar por la imagen del tema
                 android:id="@+id/questionNumber_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
+                android:layout_gravity="center"
+                android:maxWidth="160dp"
                 android:padding="20dp"
                 android:textSize="24sp"
                 tools:text="Pregunta x" />

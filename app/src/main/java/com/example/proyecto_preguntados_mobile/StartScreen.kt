@@ -32,7 +32,7 @@ class StartScreen : AppCompatActivity() {
         leaderboardButton = findViewById(R.id.leaderboard_button)
 
         startButton.setOnClickListener { _ ->
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, GameActivity::class.java)
             startActivity(intent)
         }
 

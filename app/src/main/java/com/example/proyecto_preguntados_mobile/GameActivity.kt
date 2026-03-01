@@ -58,8 +58,9 @@ class GameActivity : AppCompatActivity() {
         val hintsLeft = quizModel.hintsLeft
         val totalAnswered = quizModel.questionsAnswered
         val answeredCorrectly = quizModel.answeredCorrectly
+        val hintIndicator = if (question.usedHint) "(Hint used)" else ""
 
-        questionNumberText.text = "Pregunta ${index + 1}"
+        questionNumberText.text = "Pregunta ${index + 1} ${hintIndicator}"
         totalAnsweredText.text = "${totalAnswered} / ${questionArray.size} contestadas"
 
         questionText.text = question.text
@@ -74,8 +75,8 @@ class GameActivity : AppCompatActivity() {
             }
         } else {
             optionCButton.visibility = View.GONE
+            optionDButton.visibility = View.GONE
         }
-
 
         if (hintsActivated){
             hintButton.text = "Hint (${hintsLeft} left)"
@@ -99,6 +100,7 @@ class GameActivity : AppCompatActivity() {
             optionBButton.isEnabled = false
             optionCButton.isEnabled = false
             optionDButton.isEnabled = false
+            hintButton.isEnabled = false
             var answeredColor: Int
             if (quizModel.answeredCorrectly[quizModel.questionIndex] == true) {
                 answeredColor = Color.GREEN
@@ -117,6 +119,31 @@ class GameActivity : AppCompatActivity() {
             optionBButton.isEnabled = true
             optionCButton.isEnabled = true
             optionDButton.isEnabled = true
+            hintButton.isEnabled = true
+        }
+        for(answer in questionArray[quizModel.questionIndex].answers) {
+            if (answer.eliminatedByHint){
+                if (optionAButton.text == answer.text)
+                {
+                    optionAButton.isEnabled = false
+                    optionAButton.setBackgroundTintList(ColorStateList.valueOf(Color.YELLOW))
+                }
+                if (optionBButton.text == answer.text)
+                {
+                    optionBButton.isEnabled = false
+                    optionBButton.setBackgroundTintList(ColorStateList.valueOf(Color.YELLOW))
+                }
+                if (optionCButton.text == answer.text)
+                {
+                    optionCButton.isEnabled = false
+                    optionCButton.setBackgroundTintList(ColorStateList.valueOf(Color.YELLOW))
+                }
+                if (optionDButton.text == answer.text)
+                {
+                    optionDButton.isEnabled = false
+                    optionDButton.setBackgroundTintList(ColorStateList.valueOf(Color.YELLOW))
+                }
+            }
         }
     }
 
@@ -134,8 +161,22 @@ class GameActivity : AppCompatActivity() {
         if (button.text == getCorrectAnswer(questionArray[quizModel.questionIndex]))
         {
             quizModel.answeredCorrectly[quizModel.questionIndex] = true
+            if (questionArray[quizModel.questionIndex].usedHint)
+            {
+                quizModel.consecutiveAnswers = 0
+            }
+            else{
+                quizModel.consecutiveAnswers += 1
+            }
         } else {
             quizModel.answeredCorrectly[quizModel.questionIndex] = false
+            quizModel.consecutiveAnswers = 0
+        }
+
+        if (quizModel.consecutiveAnswers == 2){
+            quizModel.consecutiveAnswers = 0
+            quizModel.hintsLeft += 1
+            Toast.makeText(baseContext, "You gained a hint!", Toast.LENGTH_SHORT).show()
         }
 
         quizModel.questionsAnswered++
@@ -147,7 +188,25 @@ class GameActivity : AppCompatActivity() {
             Toast.makeText(baseContext, "You have no hints left", Toast.LENGTH_SHORT).show()
             return
         }
-        quizModel.useHint()
+        val autoSolveQuestion = quizModel.useHint()
+        if (autoSolveQuestion){
+            if (optionAButton.text == getCorrectAnswer(questionArray[quizModel.questionIndex]))
+            {
+                optionAButton.performClick()
+            }
+            if (optionBButton.text == getCorrectAnswer(questionArray[quizModel.questionIndex]))
+            {
+                optionBButton.performClick()
+            }
+            if (optionCButton.text == getCorrectAnswer(questionArray[quizModel.questionIndex]))
+            {
+                optionCButton.performClick()
+            }
+            if (optionDButton.text == getCorrectAnswer(questionArray[quizModel.questionIndex]))
+            {
+                optionDButton.performClick()
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
