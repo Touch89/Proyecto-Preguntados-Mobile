@@ -268,6 +268,9 @@ class QuizModel : ViewModel() {
     private var hintAmount = 3
     private var consecutiveAnswers = 0
     private var counter = 0
+    var questionsAnswered = 0
+    var answeredCorrectly = mutableListOf<Boolean?>()
+    var answersGiven = mutableListOf<Int?>()
 
     fun startGame(questionAmount: Int, topicsChosen: List<String>){
         counter = 0
@@ -288,6 +291,8 @@ class QuizModel : ViewModel() {
                             incorrectAnswerNumber++
                         }
                     }
+                    answersGiven += null
+                    answeredCorrectly += null
                     counter++
                 }
             }
