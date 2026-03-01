@@ -1,4 +1,7 @@
 <resources>
+    <string name="next_button">NEXT</string>
+    <string name="prev_button">PREV</string>
+    <string name="hint_button">Hint</string>
     <string name="app_name">PREGUNTADOS</string>
     <string name="play_button">Play button</string>
     <string name="options_button">Options button</string>
@@ -17,10 +20,17 @@
     <string name="save_button">Guardar</string>
     <string name="hints_available_default">Pistas disponibles: 3</string>
     <string name="hints_available_format">Pistas disponibles: %1$d</string>
-
     <string-array name="difficulty_options">
         <item>FACIL</item>
         <item>NORMAL</item>
         <item>DIFICIL</item>
     </string-array>
+    <string name="score_img">Image score</string>
+    <string name="finish_score_txt">¡Haz finalizado!</string>
+    <string name="score_txt">Puntaje:</string>
+    <string name="difficulty_score_txt">Dificultad:</string>
+    <string name="question_answered_score_txt">Preguntas respondidas:</string>
+    <string name="hint_use_score_txt">Pistas utilizadas:</string>
+    <string name="hint_bono_score_txt">Bono por pistas sin utilizar:</string>
+    <string name="back_to_start_button">VOLVER A INICIO</string>
 </resources>
