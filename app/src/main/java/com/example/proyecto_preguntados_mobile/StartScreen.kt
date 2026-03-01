@@ -37,7 +37,7 @@ class StartScreen : AppCompatActivity() {
         }
 
         optionsButton.setOnClickListener { _ ->
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, Settings::class.java)
             startActivity(intent)
         }
     }

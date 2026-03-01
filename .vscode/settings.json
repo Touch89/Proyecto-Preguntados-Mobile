@@ -1,0 +1,8 @@
+{
+  "chat.tools.terminal.autoApprove": {
+    "/^Move-Item \"app/src/main/assets/label_historia\\.svg\" \"app/src/main/assets/label_cine\\.svg\"; Move-Item \"app/src/main/assets/label_ciencia\\.svg\" \"app/src/main/assets/label_tecnologia\\.svg\"; Move-Item \"app/src/main/assets/label_arte\\.svg\" \"app/src/main/assets/label_astronomia\\.svg\"$/": {
+      "approve": true,
+      "matchCommandLine": true
+    }
+  }
+}

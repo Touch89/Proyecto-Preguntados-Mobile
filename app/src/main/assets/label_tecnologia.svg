@@ -1,0 +1,10 @@
+<svg width="170" height="46" viewBox="0 0 170 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g" x1="85" y1="2" x2="85" y2="44" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4AA9FF"/>
+      <stop offset="1" stop-color="#1C6FD6"/>
+    </linearGradient>
+  </defs>
+  <rect x="1" y="1" width="168" height="44" rx="22" fill="url(#g)" stroke="#1755A6" stroke-width="2"/>
+  <text x="85" y="29" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">TECNOLOGÍA</text>
+</svg>

@@ -7,7 +7,24 @@
     <string name="options_button">Options button</string>
     <string name="leaderboard_button">Leaderboard button</string>
     <string name="logo">Logo of Preguntados</string>
-
+    <string name="settings">Opciones de juego</string>
+    <string name="topic_geografia">Geografía</string>
+    <string name="topic_historia">Cine</string>
+    <string name="topic_ciencia">Tecnología</string>
+    <string name="topic_deportes">Deportes</string>
+    <string name="topic_arte">Astronomía</string>
+    <string name="questions_count_default">Preguntas: 5</string>
+    <string name="questions_count_format">Preguntas: %1$d</string>
+    <string name="difficulty_label">Dificultad</string>
+    <string name="enable_hints">Habilitar pistas</string>
+    <string name="save_button">Guardar</string>
+    <string name="hints_available_default">Pistas disponibles: 3</string>
+    <string name="hints_available_format">Pistas disponibles: %1$d</string>
+    <string-array name="difficulty_options">
+        <item>FACIL</item>
+        <item>NORMAL</item>
+        <item>DIFICIL</item>
+    </string-array>
     <string name="score_img">Image score</string>
     <string name="finish_score_txt">¡Haz finalizado!</string>
     <string name="score_txt">Puntaje:</string>
