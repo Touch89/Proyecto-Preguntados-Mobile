@@ -15,6 +15,9 @@
             android:name=".GameActivity"
             android:exported="false" />
         <activity
+            android:name=".ScoreScreen"
+            android:exported="false" />
+        <activity
             android:name=".StartScreen"
             android:exported="true">
             <intent-filter>
