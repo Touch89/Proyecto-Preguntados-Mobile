@@ -1,6 +1,8 @@
 package com.example.proyecto_preguntados_mobile
 
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -15,6 +17,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import kotlin.compareTo
 import kotlin.getValue
+import androidx.core.graphics.toColorInt
 
 class GameActivity : AppCompatActivity() {
 
@@ -38,22 +41,41 @@ class GameActivity : AppCompatActivity() {
     private var firstPressTime: Long = 0
     private var totalOfQuestions = 10
     private var hintsActivated = true
-    private var totalAnswered = 0
     private var topicsChosen = listOf<String>()
 
+    private fun resetOptionButtons() {
+        optionAButton.setBackgroundTintList(ColorStateList.valueOf("#FF6750A4".toColorInt()))
+        optionBButton.setBackgroundTintList(ColorStateList.valueOf("#FF6750A4".toColorInt()))
+        optionCButton.setBackgroundTintList(ColorStateList.valueOf("#FF6750A4".toColorInt()))
+        optionDButton.setBackgroundTintList(ColorStateList.valueOf("#FF6750A4".toColorInt()))
+    }
     private fun updateInterface() {
         val index = quizModel.questionIndex
+        val difficulty = quizModel.difficulty
         val question = questionArray[index]
+        val answers = quizModel.answers
         val topic = questionArray[index].topic
         val hintsLeft = quizModel.hintsLeft
+        val totalAnswered = quizModel.questionsAnswered
+        val answeredCorrectly = quizModel.answeredCorrectly
+
         questionNumberText.text = "Pregunta ${index + 1}"
         totalAnsweredText.text = "${totalAnswered} / ${questionArray.size} contestadas"
 
         questionText.text = question.text
-        optionAButton.text = question.answers[0].text
-        optionBButton.text = question.answers[1].text
-        optionCButton.text = question.answers[2].text
-        optionDButton.text = question.answers[3].text
+        optionAButton.text = answers[index*(difficulty+2)].text
+        optionBButton.text = answers[index*(difficulty+2)+1].text
+        if(difficulty > 0) {
+            optionCButton.text = answers[index*(difficulty+2)+2].text
+            if (difficulty == 2) {
+                optionDButton.text = answers[index*(difficulty+2)+3].text
+            } else {
+                optionDButton.visibility = View.GONE
+            }
+        } else {
+            optionCButton.visibility = View.GONE
+        }
+
 
         if (hintsActivated){
             hintButton.text = "Hint (${hintsLeft} left)"
@@ -70,8 +92,56 @@ class GameActivity : AppCompatActivity() {
             "Astronomía" -> mainLayout.setBackgroundResource(R.drawable.astronomyimage)
             else -> return
         }
+
+        resetOptionButtons()
+        if (quizModel.answersGiven[quizModel.questionIndex] != null) {
+            optionAButton.isEnabled = false
+            optionBButton.isEnabled = false
+            optionCButton.isEnabled = false
+            optionDButton.isEnabled = false
+            var answeredColor: Int
+            if (quizModel.answeredCorrectly[quizModel.questionIndex] == true) {
+                answeredColor = Color.GREEN
+            } else {
+                answeredColor = Color.RED
+            }
+            when (quizModel.answersGiven[quizModel.questionIndex]) {
+                0 -> optionAButton.setBackgroundTintList(ColorStateList.valueOf(answeredColor))
+                1 -> optionBButton.setBackgroundTintList(ColorStateList.valueOf(answeredColor))
+                2 -> optionCButton.setBackgroundTintList(ColorStateList.valueOf(answeredColor))
+                3 -> optionDButton.setBackgroundTintList(ColorStateList.valueOf(answeredColor))
+                else -> println("Error setting option color")
+            }
+        } else {
+            optionAButton.isEnabled = true
+            optionBButton.isEnabled = true
+            optionCButton.isEnabled = true
+            optionDButton.isEnabled = true
+        }
     }
 
+    private fun getCorrectAnswer(question: Question): String {
+        for (answer in question.answers) {
+            if (answer.correct) {
+                return answer.text
+            }
+        }
+        return "Error: No correct answer found"
+    }
+
+    private fun handleAnswer(button: Button, answerNumber: Int) {
+        button.isEnabled = false
+        if (button.text == getCorrectAnswer(questionArray[quizModel.questionIndex]))
+        {
+            quizModel.answeredCorrectly[quizModel.questionIndex] = true
+        } else {
+            quizModel.answeredCorrectly[quizModel.questionIndex] = false
+        }
+
+        quizModel.questionsAnswered++
+        quizModel.answersGiven[quizModel.questionIndex] = answerNumber
+        updateInterface()
+    }
     private fun hintUsed(){
         if (quizModel.hintsLeft <= 0) {
             Toast.makeText(baseContext, "You have no hints left", Toast.LENGTH_SHORT).show()
@@ -121,6 +191,31 @@ class GameActivity : AppCompatActivity() {
         questionArray = quizModel.questionList
 
         updateInterface()
+
+        optionAButton.setOnClickListener { _ ->
+            handleAnswer(optionAButton, 0)
+            optionBButton.isEnabled = false
+            optionCButton.isEnabled = false
+            optionDButton.isEnabled = false
+        }
+        optionBButton.setOnClickListener { _ ->
+            handleAnswer(optionBButton, 1)
+            optionAButton.isEnabled = false
+            optionCButton.isEnabled = false
+            optionDButton.isEnabled = false
+        }
+        optionCButton.setOnClickListener { _ ->
+            handleAnswer(optionCButton, 2)
+            optionAButton.isEnabled = false
+            optionBButton.isEnabled = false
+            optionDButton.isEnabled = false
+        }
+        optionDButton.setOnClickListener { _ ->
+            handleAnswer(optionDButton, 3)
+            optionAButton.isEnabled = false
+            optionBButton.isEnabled = false
+            optionCButton.isEnabled = false
+        }
 
         nextButton.setOnClickListener { _ ->
             quizModel.moveToTheNextQuestion()

@@ -74,8 +74,8 @@ dentro del juego se va a cambiar por la imagen del tema
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:padding="20dp"
             android:minHeight="130dp"
+            android:padding="20dp"
             android:textAlignment="center"
             android:textSize="24sp"
             tools:text="Texto de la pregunta👍" />
@@ -102,6 +102,7 @@ dentro del juego se va a cambiar por la imagen del tema
                 android:minHeight="70dp"
                 android:textAlignment="center"
                 android:textSize="20sp"
+                app:backgroundTint="#6750A4"
                 tools:text="Opción A" />
 
 
@@ -116,6 +117,7 @@ dentro del juego se va a cambiar por la imagen del tema
                 android:minHeight="70dp"
                 android:textAlignment="center"
                 android:textSize="20sp"
+                app:backgroundTint="#6750A4"
                 tools:text="Opción B" />
 
             <Space
@@ -147,6 +149,7 @@ dentro del juego se va a cambiar por la imagen del tema
                 android:minHeight="70dp"
                 android:textAlignment="center"
                 android:textSize="20sp"
+                app:backgroundTint="#6750A4"
                 tools:text="Opción C" />
             <!--android:visibility="gone" para hacer que desaparezcan los botones ** -->
 
@@ -161,6 +164,7 @@ dentro del juego se va a cambiar por la imagen del tema
                 android:minHeight="70dp"
                 android:textAlignment="center"
                 android:textSize="20sp"
+                app:backgroundTint="#6750A4"
                 tools:text="Opción D" />
 
             <Space
