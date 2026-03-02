@@ -26,6 +26,7 @@ class ScoreScreen : AppCompatActivity() {
     private var questionScore = 0
     private var hintUse = 0
     private var hintBono = 0
+    private var difficulty = Difficulty.MEDIO
 
     enum class Difficulty {
         FACIL, MEDIO, DIFICIL
@@ -52,16 +53,26 @@ class ScoreScreen : AppCompatActivity() {
         backStartButton.setOnClickListener { _ ->
             val intent = Intent(this, StartScreen::class.java)
             startActivity(intent)
+            finish()
         }
 
-        calculateScore(9, 2, 1, Difficulty.MEDIO)
+        questionScore = intent.getIntExtra("questionScore", 0)
+        hintUse = intent.getIntExtra("hintUse", 0)
+        hintBono = intent.getIntExtra("hintBono", 0)
+        difficulty = when (intent.getIntExtra("difficultyIndex", 1)) {
+            0 -> Difficulty.FACIL
+            2 -> Difficulty.DIFICIL
+            else -> Difficulty.MEDIO
+        }
+
+        calculateScore(questionScore, hintUse, hintBono, difficulty)
         changeImage(scoreModel.globalScore)
 
         scoreText.text = scoreModel.globalScore.toString()
-        difficultyScore.text = Difficulty.MEDIO.toString()
-        questionAnsweredScore.text = "9"
-        hintUseScore.text = "1"
-        hintBonoScore.text = "2"
+        difficultyScore.text = difficulty.toString()
+        questionAnsweredScore.text = questionScore.toString()
+        hintUseScore.text = hintUse.toString()
+        hintBonoScore.text = hintBono.toString()
     }
 
     fun calculateScore(questionScore: Int, hintUse: Int, hintBono: Int, difficulty: Difficulty): Int {

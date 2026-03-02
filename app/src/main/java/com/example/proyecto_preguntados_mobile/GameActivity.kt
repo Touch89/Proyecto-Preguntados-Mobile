@@ -1,6 +1,7 @@
 package com.example.proyecto_preguntados_mobile
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -15,24 +16,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import org.json.JSONObject
-import java.io.File
 import kotlin.compareTo
 import kotlin.getValue
 import androidx.core.graphics.toColorInt
 
 class GameActivity : AppCompatActivity() {
-
-    private data class SettingsState(
-        val cine: Boolean,
-        val geografia: Boolean,
-        val tecnologia: Boolean,
-        val deportes: Boolean,
-        val astronomia: Boolean,
-        val questionCount: Int,
-        val difficultyIndex: Int,
-        val hintsEnabled: Boolean
-    )
 
     private lateinit var questionText: TextView
     private lateinit var questionNumberText: TextView
@@ -54,57 +42,8 @@ class GameActivity : AppCompatActivity() {
     private var firstPressTime: Long = 0
     private var totalOfQuestions = 10
     private var hintsActivated = true
+    private var initialHints = 3
     private var topicsChosen = listOf<String>()
-    private val settingsFileName = "game_settings.json"
-
-    private fun loadSettingsState(): SettingsState {
-        val defaultState = SettingsState(
-            cine = true,
-            geografia = true,
-            tecnologia = true,
-            deportes = true,
-            astronomia = true,
-            questionCount = 10,
-            difficultyIndex = 2,
-            hintsEnabled = true
-        )
-
-        return try {
-            val file = File(filesDir, settingsFileName)
-            if (!file.exists()) {
-                defaultState
-            } else {
-                val json = JSONObject(file.readText())
-                SettingsState(
-                    cine = json.optBoolean("cine", defaultState.cine),
-                    geografia = json.optBoolean("geografia", defaultState.geografia),
-                    tecnologia = json.optBoolean("tecnologia", defaultState.tecnologia),
-                    deportes = json.optBoolean("deportes", defaultState.deportes),
-                    astronomia = json.optBoolean("astronomia", defaultState.astronomia),
-                    questionCount = json.optInt("questionCount", defaultState.questionCount),
-                    difficultyIndex = json.optInt("difficultyIndex", defaultState.difficultyIndex),
-                    hintsEnabled = json.optBoolean("hintsEnabled", defaultState.hintsEnabled)
-                )
-            }
-        } catch (_: Exception) {
-            defaultState
-        }
-    }
-
-    private fun topicsFromState(state: SettingsState): List<String> {
-        val selectedTopics = mutableListOf<String>()
-        if (state.cine) selectedTopics += "Cine"
-        if (state.geografia) selectedTopics += "Geografía"
-        if (state.tecnologia) selectedTopics += "Tecnología"
-        if (state.deportes) selectedTopics += "Deportes"
-        if (state.astronomia) selectedTopics += "Astronomía"
-
-        return if (selectedTopics.isEmpty()) {
-            listOf("Cine", "Geografía", "Tecnología", "Deportes", "Astronomía")
-        } else {
-            selectedTopics
-        }
-    }
 
     private fun resetOptionButtons() {
         optionAButton.setBackgroundTintList(ColorStateList.valueOf("#FF6750A4".toColorInt()))
@@ -244,7 +183,28 @@ class GameActivity : AppCompatActivity() {
 
         quizModel.questionsAnswered++
         quizModel.answersGiven[quizModel.questionIndex] = answerNumber
+
+        if (quizModel.questionsAnswered >= questionArray.size) {
+            navigateToScoreScreen()
+            return
+        }
+
         updateInterface()
+    }
+
+    private fun navigateToScoreScreen() {
+        val questionScore = quizModel.answeredCorrectly.count { it == true }
+        val hintUse = questionArray.count { it.usedHint }
+        val hintBono = (quizModel.hintsLeft - initialHints + hintUse).coerceAtLeast(0)
+
+        val intent = Intent(this, ScoreScreen::class.java).apply {
+            putExtra("questionScore", questionScore)
+            putExtra("hintUse", hintUse)
+            putExtra("hintBono", hintBono)
+            putExtra("difficultyIndex", quizModel.difficulty)
+        }
+        startActivity(intent)
+        finish()
     }
     private fun hintUsed(){
         if (quizModel.hintsLeft <= 0) {
@@ -305,11 +265,18 @@ class GameActivity : AppCompatActivity() {
         nextButton = findViewById(R.id.next_button)
         hintButton = findViewById(R.id.hint_button)
 
-        val settingsState = loadSettingsState()
-        totalOfQuestions = settingsState.questionCount.coerceIn(5, 10)
-        hintsActivated = settingsState.hintsEnabled
-        topicsChosen = topicsFromState(settingsState)
-        quizModel.difficulty = settingsState.difficultyIndex.coerceIn(0, 2)
+        topicsChosen = intent.getStringArrayListExtra("topics") ?: listOf(
+            "Cine",
+            "Geografía",
+            "Tecnología",
+            "Deportes",
+            "Astronomía"
+        )
+        totalOfQuestions = intent.getIntExtra("questionCount", 10)
+        quizModel.difficulty = intent.getIntExtra("difficultyIndex", 0).coerceIn(0, 2)
+        hintsActivated = intent.getBooleanExtra("hintsEnabled", true)
+        quizModel.hintsLeft = if (hintsActivated) 3 else 0
+        initialHints = quizModel.hintsLeft
 
         quizModel.startGame(totalOfQuestions, topicsChosen)
 
