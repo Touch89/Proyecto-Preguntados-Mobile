@@ -51,7 +51,8 @@ dentro del juego se va a cambiar por la imagen del tema
                 android:layout_gravity="center"
                 android:maxWidth="170dp"
                 android:padding="20dp"
-                android:textSize="24sp"
+                android:textColor="@color/black"
+                android:textSize="20sp"
                 tools:text="Pregunta x" />
 
             <Space
@@ -65,7 +66,8 @@ dentro del juego se va a cambiar por la imagen del tema
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:padding="20dp"
-                android:textSize="24sp"
+                android:textColor="@color/black"
+                android:textSize="20sp"
                 tools:text="0/#" />
 
         </LinearLayout>
@@ -78,6 +80,7 @@ dentro del juego se va a cambiar por la imagen del tema
             android:minHeight="130dp"
             android:padding="20dp"
             android:textAlignment="center"
+            android:textColor="@color/black"
             android:textSize="24sp"
             tools:text="Texto de la pregunta👍" />
 
@@ -96,12 +99,13 @@ dentro del juego se va a cambiar por la imagen del tema
                 android:id="@+id/optionA_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
+                android:layout_margin="10dp"
                 android:maxWidth="160dp"
                 android:maxHeight="170dp"
                 android:minWidth="160dp"
                 android:minHeight="70dp"
                 android:textAlignment="center"
+                android:textColor="@color/white"
                 android:textSize="20sp"
                 app:backgroundTint="#6750A4"
                 tools:text="Opción A" />
@@ -111,12 +115,13 @@ dentro del juego se va a cambiar por la imagen del tema
                 android:id="@+id/optionB_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
+                android:layout_margin="10dp"
                 android:maxWidth="160dp"
                 android:maxHeight="170dp"
                 android:minWidth="160dp"
                 android:minHeight="70dp"
                 android:textAlignment="center"
+                android:textColor="@color/white"
                 android:textSize="20sp"
                 app:backgroundTint="#6750A4"
                 tools:text="Opción B" />
@@ -143,12 +148,13 @@ dentro del juego se va a cambiar por la imagen del tema
                 android:id="@+id/optionC_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
+                android:layout_margin="10dp"
                 android:maxWidth="160dp"
                 android:maxHeight="170dp"
                 android:minWidth="160dp"
                 android:minHeight="70dp"
                 android:textAlignment="center"
+                android:textColor="@color/white"
                 android:textSize="20sp"
                 app:backgroundTint="#6750A4"
                 tools:text="Opción C" />
@@ -158,14 +164,16 @@ dentro del juego se va a cambiar por la imagen del tema
                 android:id="@+id/optionD_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
+                android:layout_margin="10dp"
                 android:maxWidth="160dp"
                 android:maxHeight="170dp"
                 android:minWidth="160dp"
                 android:minHeight="70dp"
                 android:textAlignment="center"
+                android:textColor="@color/white"
                 android:textSize="20sp"
                 app:backgroundTint="#6750A4"
+
                 tools:text="Opción D" />
 
             <Space
