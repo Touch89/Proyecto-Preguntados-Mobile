@@ -52,6 +52,7 @@ class Settings : AppCompatActivity() {
 	private lateinit var tecnologiaLabel: ImageView
 	private lateinit var deportesLabel: ImageView
 	private lateinit var astronomiaLabel: ImageView
+    private var numberOfTopicsSelected = 0
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -80,6 +81,7 @@ class Settings : AppCompatActivity() {
 		tecnologiaLabel = findViewById(R.id.tecnologia_label)
 		deportesLabel = findViewById(R.id.deportes_label)
 		astronomiaLabel = findViewById(R.id.astronomia_label)
+        val checkboxes = listOf(cbCine, cbGeografia, cbTecnologia, cbDeportes, cbAstronomia)
 
 		loadSvgLabel("label_geografia.svg", geografiaLabel)
 		loadSvgLabel("label_cine.svg", cineLabel)
@@ -96,6 +98,7 @@ class Settings : AppCompatActivity() {
 
 		val persistedState = loadSettingsState()
 		applyStateToViews(persistedState)
+        handleInvalidInputs()
 
 		seekQuestions.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 			override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -120,6 +123,11 @@ class Settings : AppCompatActivity() {
 			startActivity(intent)
 			finish()
 		}
+        for (checkbox in checkboxes) {
+            checkbox.setOnCheckedChangeListener { _, _ ->
+                handleInvalidInputs()
+            }
+        }
 	}
 
 	override fun onPause() {
@@ -225,4 +233,32 @@ class Settings : AppCompatActivity() {
 			imageView.setImageDrawable(pictureDrawable)
 		}
 	}
+
+    private fun handleInvalidInputs() {
+        val checkboxes = listOf(cbCine, cbGeografia, cbTecnologia, cbDeportes, cbAstronomia)
+        numberOfTopicsSelected = 0
+        for (checkbox in checkboxes) {
+            if (checkbox.isChecked) {
+                numberOfTopicsSelected++
+                checkbox.isEnabled = true
+            }
+        }
+
+        if (numberOfTopicsSelected == 0) {
+            cbGeografia.isChecked = true
+            numberOfTopicsSelected = 1
+        }
+
+        if (numberOfTopicsSelected == 1) {
+            seekQuestions.progress = 0
+            seekQuestions.isEnabled = false
+            for (checkbox in checkboxes) {
+                if (checkbox.isChecked) {
+                    checkbox.isEnabled = false
+                }
+            }
+        } else {
+            seekQuestions.isEnabled = true
+        }
+    }
 }
