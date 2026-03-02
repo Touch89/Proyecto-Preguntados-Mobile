@@ -270,11 +270,12 @@ class QuizModel : ViewModel() {
     var answeredCorrectly = mutableListOf<Boolean?>()
     var answersGiven = mutableListOf<Int?>()
 
-    fun startGame(questionAmount: Int, topicsChosen: List<String>) {
+    fun startGame(questionAmount: Int, topicsChosen: List<String>, hintAmount: Int) {
         counter = 0
         if (questionsChosen) {
             return
         }
+        hintsLeft = hintAmount
 
         for (question in questionArray.shuffled()) {
             if (counter < questionAmount) {

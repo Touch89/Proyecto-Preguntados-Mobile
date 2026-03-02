@@ -275,10 +275,9 @@ class GameActivity : AppCompatActivity() {
         totalOfQuestions = intent.getIntExtra("questionCount", 10)
         quizModel.difficulty = intent.getIntExtra("difficultyIndex", 0).coerceIn(0, 2)
         hintsActivated = intent.getBooleanExtra("hintsEnabled", true)
-        quizModel.hintsLeft = if (hintsActivated) 3 else 0
         initialHints = quizModel.hintsLeft
 
-        quizModel.startGame(totalOfQuestions, topicsChosen)
+        quizModel.startGame(totalOfQuestions, topicsChosen, if (hintsActivated) 3 else 0)
 
         questionArray = quizModel.questionList
 
