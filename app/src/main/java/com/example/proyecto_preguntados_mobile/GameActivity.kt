@@ -194,8 +194,8 @@ class GameActivity : AppCompatActivity() {
 
     private fun navigateToScoreScreen() {
         val questionScore = quizModel.answeredCorrectly.count { it == true }
-        val hintUse = questionArray.count { it.usedHint }
-        val hintBono = (quizModel.hintsLeft - initialHints + hintUse).coerceAtLeast(0)
+        val hintUse = quizModel.hintsUsed
+        val hintBono = (quizModel.hintsLeft).coerceAtLeast(0)
 
         val intent = Intent(this, ScoreScreen::class.java).apply {
             putExtra("questionScore", questionScore)

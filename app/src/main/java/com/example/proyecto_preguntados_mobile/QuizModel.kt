@@ -265,6 +265,7 @@ class QuizModel : ViewModel() {
     var hintsLeft = 3
     var consecutiveAnswers = 0
     private var counter = 0
+    var hintsUsed = 0
     var questionsAnswered = 0
     var answeredCorrectly = mutableListOf<Boolean?>()
     var answersGiven = mutableListOf<Int?>()
@@ -317,6 +318,7 @@ class QuizModel : ViewModel() {
     fun useHint(): Boolean {
         gameQuestions[questionIndex].usedHint = true
         hintsLeft -= 1
+        hintsUsed += 1
 
         val incorrectOptRemaining = mutableListOf<Int>() //indices de las incorrectas
         var totalOptRemaining = 0
