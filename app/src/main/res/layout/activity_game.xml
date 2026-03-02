@@ -49,7 +49,7 @@ dentro del juego se va a cambiar por la imagen del tema
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:maxWidth="160dp"
+                android:maxWidth="170dp"
                 android:padding="20dp"
                 android:textSize="24sp"
                 tools:text="Pregunta x" />
