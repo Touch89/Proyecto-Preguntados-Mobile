@@ -67,6 +67,7 @@ class StartScreen : AppCompatActivity() {
                 putExtra("hintsEnabled", settings.hintsEnabled)
             }
             startActivity(intent)
+            finish()
         }
 
         optionsButton.setOnClickListener { _ ->

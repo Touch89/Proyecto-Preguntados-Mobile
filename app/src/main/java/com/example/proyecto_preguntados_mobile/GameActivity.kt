@@ -45,12 +45,18 @@ class GameActivity : AppCompatActivity() {
     private var initialHints = 3
     private var topicsChosen = listOf<String>()
 
+    private fun closeActivity() {
+        val intent = Intent(this, StartScreen::class.java)
+        startActivity(intent)
+        finish()
+    }
     private fun resetOptionButtons() {
         optionAButton.setBackgroundTintList(ColorStateList.valueOf("#FF6750A4".toColorInt()))
         optionBButton.setBackgroundTintList(ColorStateList.valueOf("#FF6750A4".toColorInt()))
         optionCButton.setBackgroundTintList(ColorStateList.valueOf("#FF6750A4".toColorInt()))
         optionDButton.setBackgroundTintList(ColorStateList.valueOf("#FF6750A4".toColorInt()))
     }
+
     private fun updateInterface() {
         val index = quizModel.questionIndex
         val difficulty = quizModel.difficulty
@@ -66,12 +72,12 @@ class GameActivity : AppCompatActivity() {
         totalAnsweredText.text = "${totalAnswered} / ${questionArray.size} contestadas"
 
         questionText.text = question.text
-        optionAButton.text = answers[index*(difficulty+2)].text
-        optionBButton.text = answers[index*(difficulty+2)+1].text
-        if(difficulty > 0) {
-            optionCButton.text = answers[index*(difficulty+2)+2].text
+        optionAButton.text = answers[index * (difficulty + 2)].text
+        optionBButton.text = answers[index * (difficulty + 2) + 1].text
+        if (difficulty > 0) {
+            optionCButton.text = answers[index * (difficulty + 2) + 2].text
             if (difficulty == 2) {
-                optionDButton.text = answers[index*(difficulty+2)+3].text
+                optionDButton.text = answers[index * (difficulty + 2) + 3].text
             } else {
                 optionDButton.visibility = View.GONE
             }
@@ -80,11 +86,10 @@ class GameActivity : AppCompatActivity() {
             optionDButton.visibility = View.GONE
         }
 
-        if (hintsActivated){
+        if (hintsActivated) {
             hintButton.text = "Hint (${hintsLeft} left)"
 
-        }
-        else{
+        } else {
             hintButton.visibility = View.GONE
         }
         when (topic) {
@@ -123,25 +128,21 @@ class GameActivity : AppCompatActivity() {
             optionDButton.isEnabled = true
             hintButton.isEnabled = true
         }
-        for(answer in questionArray[quizModel.questionIndex].answers) {
-            if (answer.eliminatedByHint){
-                if (optionAButton.text == answer.text)
-                {
+        for (answer in questionArray[quizModel.questionIndex].answers) {
+            if (answer.eliminatedByHint) {
+                if (optionAButton.text == answer.text) {
                     optionAButton.isEnabled = false
                     optionAButton.setBackgroundTintList(ColorStateList.valueOf(Color.YELLOW))
                 }
-                if (optionBButton.text == answer.text)
-                {
+                if (optionBButton.text == answer.text) {
                     optionBButton.isEnabled = false
                     optionBButton.setBackgroundTintList(ColorStateList.valueOf(Color.YELLOW))
                 }
-                if (optionCButton.text == answer.text)
-                {
+                if (optionCButton.text == answer.text) {
                     optionCButton.isEnabled = false
                     optionCButton.setBackgroundTintList(ColorStateList.valueOf(Color.YELLOW))
                 }
-                if (optionDButton.text == answer.text)
-                {
+                if (optionDButton.text == answer.text) {
                     optionDButton.isEnabled = false
                     optionDButton.setBackgroundTintList(ColorStateList.valueOf(Color.YELLOW))
                 }
@@ -160,14 +161,11 @@ class GameActivity : AppCompatActivity() {
 
     private fun handleAnswer(button: Button, answerNumber: Int) {
         button.isEnabled = false
-        if (button.text == getCorrectAnswer(questionArray[quizModel.questionIndex]))
-        {
+        if (button.text == getCorrectAnswer(questionArray[quizModel.questionIndex])) {
             quizModel.answeredCorrectly[quizModel.questionIndex] = true
-            if (questionArray[quizModel.questionIndex].usedHint)
-            {
+            if (questionArray[quizModel.questionIndex].usedHint) {
                 quizModel.consecutiveAnswers = 0
-            }
-            else{
+            } else {
                 quizModel.consecutiveAnswers += 1
             }
         } else {
@@ -175,10 +173,12 @@ class GameActivity : AppCompatActivity() {
             quizModel.consecutiveAnswers = 0
         }
 
-        if (quizModel.consecutiveAnswers == 2){
+        if (quizModel.consecutiveAnswers == 2) {
             quizModel.consecutiveAnswers = 0
-            quizModel.hintsLeft += 1
-            Toast.makeText(baseContext, "You gained a hint!", Toast.LENGTH_SHORT).show()
+            if (hintsActivated) {
+                quizModel.hintsLeft += 1
+                Toast.makeText(baseContext, "You gained a hint!", Toast.LENGTH_SHORT).show()
+            }
         }
 
         quizModel.questionsAnswered++
@@ -206,27 +206,24 @@ class GameActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
-    private fun hintUsed(){
+
+    private fun hintUsed() {
         if (quizModel.hintsLeft <= 0) {
             Toast.makeText(baseContext, "You have no hints left", Toast.LENGTH_SHORT).show()
             return
         }
         val autoSolveQuestion = quizModel.useHint()
-        if (autoSolveQuestion){
-            if (optionAButton.text == getCorrectAnswer(questionArray[quizModel.questionIndex]))
-            {
+        if (autoSolveQuestion) {
+            if (optionAButton.text == getCorrectAnswer(questionArray[quizModel.questionIndex])) {
                 optionAButton.performClick()
             }
-            if (optionBButton.text == getCorrectAnswer(questionArray[quizModel.questionIndex]))
-            {
+            if (optionBButton.text == getCorrectAnswer(questionArray[quizModel.questionIndex])) {
                 optionBButton.performClick()
             }
-            if (optionCButton.text == getCorrectAnswer(questionArray[quizModel.questionIndex]))
-            {
+            if (optionCButton.text == getCorrectAnswer(questionArray[quizModel.questionIndex])) {
                 optionCButton.performClick()
             }
-            if (optionDButton.text == getCorrectAnswer(questionArray[quizModel.questionIndex]))
-            {
+            if (optionDButton.text == getCorrectAnswer(questionArray[quizModel.questionIndex])) {
                 optionDButton.performClick()
             }
         }
@@ -245,9 +242,13 @@ class GameActivity : AppCompatActivity() {
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (firstPressTime + 1000 > System.currentTimeMillis()) {
-                    finish()
+                    closeActivity()
                 } else {
-                    Toast.makeText(baseContext, "Press Back twice to exit the game", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        baseContext,
+                        "Press Back twice to exit the game",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
                 firstPressTime = System.currentTimeMillis()
             }
